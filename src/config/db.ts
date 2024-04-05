@@ -1,5 +1,11 @@
 import { Sequelize } from "sequelize";
+import dotenv from 'dotenv'
+require('dotenv').config({ path: '../.env' }); // Load environment variables from .env file in the parent directory
 
-const db = new Sequelize('postgres://rest_api_node_ts_server_user:9pGOboG49KroiDV5NO7mwnOzt1a2WazK@dpg-co87u7ljm4es738v3eu0-a.oregon-postgres.render.com/rest_api_node_ts_server?ssl=true')
+dotenv.config()
+
+console.log(process.env)
+
+const db = new Sequelize(process.env.DATABASE_URL)
 
 export default db;
