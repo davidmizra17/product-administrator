@@ -1,5 +1,3 @@
-import { idDirective } from '@neo4j/graphql/dist/graphql/directives'
-import { printSourceLocation } from 'graphql'
 import { Table, Column, Model, DataType, Default } from 'sequelize-typescript'
 
 @Table({
@@ -18,6 +16,8 @@ class Product extends Model{
         type: DataType.FLOAT(6, 2)
     })
     price: number
+
+    @Default(true)
 
     @Column({
         type: DataType.BOOLEAN
