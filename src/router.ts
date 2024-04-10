@@ -1,14 +1,19 @@
 import { Router } from "express";
-import { createProduct } from "./handlers/products";
-import { body } from 'express-validator'
+import { createProduct, getProducts, getProductByID, updateProduct, updateAvailability, deleteProduct } from "./handlers/products";
+import { body, param } from 'express-validator'
 import { handleInputErrors } from "./middleware";
 
 
 const router = Router(); 
+//GET
+router.get('/', getProducts)
 
-router.get('/', (req, res) => {
-    res.send('Hola mundo en get')
-})
+router.get('/:id',
+    
+    param('id').isInt().withMessage('ingrese un numero para el id'),
+    handleInputErrors,    
+    getProductByID)
+//POST
 router.post('/',
     
     //Validation
@@ -26,9 +31,27 @@ router.post('/',
     handleInputErrors,
     //si no hay errores, con funcion next() invocada en handleInputErrors llamamos a la funcion createProduct
     createProduct)
-router.put('/', (req, res) => {
-    res.send('Hola mundo en put')
-})
 
+//POST
+router.put('/:id',
+    body('name')
+        .notEmpty().withMessage("El nombre del producto no puede ir vacio"),
+    body('price')
+    .isNumeric().withMessage("Valor no valido")
+        
+        .notEmpty().withMessage('El precio del producto no puede estar vacio')
+        .custom(value => value > 0).withMessage('Precio no valido'),
+    body('availability')
+        .isBoolean().withMessage('Valor para disponibilidad no valido'),
+    handleInputErrors,
+    updateProduct
+)
+
+router.patch('/:id',
+    param('id').isInt().withMessage('ingrese un numero para el id'),
+    handleInputErrors,  
+    updateAvailability)
+    
+router.delete('/:id', deleteProduct)
 
 export default router
