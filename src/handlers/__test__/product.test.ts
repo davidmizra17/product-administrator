@@ -151,6 +151,41 @@ describe('PUT /api/products/:id', () => {
     })
 })
 
+describe('PATCH /api/products:id', () => {
+
+    it('should return a 404 for a non-existent product', async () => {
+        
+        const productId = 2000
+        const response = await request(server).put(`/api/products/${productId}`).send({
+            name: "Monitor Curvo",
+            availability: true,
+            price: 300
+        }) 
+
+        expect(response.status).toBe(404)
+        expect(response.body.error).toBe('Producto No Encontrado')
+            
+        expect(response.status).not.toBe(200)
+        expect(response.body.error).not.toHaveProperty('data')
+            
+    })
+    
+
+    it('should update the product availability', async () => {
+        const response = await request(server).patch('/api/products/1')
+        expect(response.status).toBe(200)
+        expect(response.body).toHaveProperty('data')
+        expect(response.body.data.availability).toBe(false)
+
+        expect(response.status).not.toBe(400)
+        expect(response.status).not.toBe(404)
+        expect(response.body).not.toHaveProperty('errors')
+
+    }
+    )
+    
+})
+
 describe('DELETE /api/products/:id', () => {
     
     it('should check a valid id', async () => {

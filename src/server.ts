@@ -3,7 +3,7 @@ import router from "./router";
 import db from "./config/db";
 import colors from 'colors'
 
-async function connectDB() {
+export async function connectDB() {
     try {
 
         await db.authenticate()
@@ -12,7 +12,7 @@ async function connectDB() {
         
     } catch (error) {
         // console.log(error)
-        // console.log(colors.red.bold("hubo un error al conectar a la base de datos"))
+        console.log(colors.red.bold("hubo un error al conectar a la base de datos"))
 
     }
 }
