@@ -10,7 +10,7 @@ router.get('/', getProducts)
 
 router.get('/:id',
     
-    param('id').isInt().withMessage('ingrese un numero para el id'),
+    param('id').isInt().withMessage('ID no válido'),
     handleInputErrors,    
     getProductByID)
 //POST
@@ -34,10 +34,12 @@ router.post('/',
 
 //POST
 router.put('/:id',
+    param('id').isInt().withMessage('ID no válido'),
     body('name')
         .notEmpty().withMessage("El nombre del producto no puede ir vacio"),
     body('price')
-    .isNumeric().withMessage("Valor no valido")
+        .isNumeric().withMessage("Valor no valido")
+        
         
         .notEmpty().withMessage('El precio del producto no puede estar vacio')
         .custom(value => value > 0).withMessage('Precio no valido'),
@@ -48,10 +50,13 @@ router.put('/:id',
 )
 
 router.patch('/:id',
-    param('id').isInt().withMessage('ingrese un numero para el id'),
+    param('id').isInt().withMessage('ID no válido'),
     handleInputErrors,  
     updateAvailability)
     
-router.delete('/:id', deleteProduct)
+router.delete('/:id',
+    param('id').isInt().withMessage('ID no válido'),
+    handleInputErrors,
+    deleteProduct)
 
 export default router
