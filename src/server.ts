@@ -3,6 +3,7 @@ import router from "./router";
 import db from "./config/db";
 import colors from 'colors'
 
+
 export async function connectDB() {
     try {
 
@@ -19,6 +20,9 @@ export async function connectDB() {
 connectDB();
 //Instancia de express
 const server = express();
+const cors = require('cors')
+
+server.use(cors('http://localhost:5173/'))
 
 //leer datos de formularios
 server.use(express.json())
